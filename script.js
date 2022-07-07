@@ -1,7 +1,12 @@
 const documentContent = document.querySelectorAll('.container')[0];
 const loadBtn = document.getElementById('btn-load');
+let data;
+let fixtures;
 
-fetch("https://v3.football.api-sports.io/fixtures?league=39&season=2022", {
+
+
+fetch(
+    "https://v3.football.api-sports.io/fixtures?league=39&season=2022", {
     "method": "GET",
     "headers": {
         "x-rapidapi-host": "v3.football.api-sports.io",
@@ -12,21 +17,22 @@ fetch("https://v3.football.api-sports.io/fixtures?league=39&season=2022", {
         return response.json()
     })
     .then(data => {
-        const fixtures = data.response;
-        window.addEventListener('load', getTwenty(fixtures, 0));
-        loadBtn.addEventListener('click', () => {
-            getTwenty(fixtures, 4);
-        })
-
+        setTimeout(() => {
+            location.reload();
+            data
+        }, 60000);
+        formatAsHtml(data.response);
     })
     .catch(err => {
         console.log(err);
     });
 
 
-const formatData = (data) => {
+
+
+const formatAsHtml = (arr) => {
     let content = '';
-    data.forEach(
+    arr.forEach(
         (match) => {
             content += `
                 <div class="match-card">
@@ -39,13 +45,6 @@ const formatData = (data) => {
             `
         }
     )
-    return content;
+    documentContent.innerHTML += content;
 }
-
-function getTwenty(arr, i) {
-    const fourItemArr = arr.slice(i, i + 4);
-    documentContent.innerHTML += formatData(fourItemArr);
-    i = i + 4;
-}
-
 
