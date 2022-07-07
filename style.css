@@ -1,12 +1,18 @@
 body{
     font-family: 'Concert One', 'cursive';
+    padding: 0;
+    margin: 0;
 }
 
-.flex{
+.container{
+    overflow-y: auto;
+}
+
+.match-card{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 30px 0;
+    padding: 20px 0;
     background-color: rgba(0, 0, 0, 0);
 }
 
@@ -14,4 +20,21 @@ body{
     font-size: 100px;
     font-weight: 600;
     color: #2bfebe;
+    margin: 0;
+}
+
+.flex img{
+    height: 150px;
+    width: 150px;
+}
+
+#btn-load{
+    display: block;
+    margin: 0 auto 50px auto;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: red;
+    color: white;
+    border: 0;
+    border-radius: 5px;
 }

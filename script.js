@@ -1,4 +1,5 @@
-const main = document.querySelectorAll('.container')[0];
+const documentContent = document.querySelectorAll('.container')[0];
+const loadBtn = document.getElementById('btn-load');
 
 fetch("https://v3.football.api-sports.io/fixtures?league=39&season=2022", {
     "method": "GET",
@@ -12,7 +13,11 @@ fetch("https://v3.football.api-sports.io/fixtures?league=39&season=2022", {
     })
     .then(data => {
         const fixtures = data.response;
-        formatData(fixtures);
+        window.addEventListener('load', getTwenty(fixtures, 0));
+        loadBtn.addEventListener('click', () => {
+            getTwenty(fixtures, 4);
+        })
+
     })
     .catch(err => {
         console.log(err);
@@ -21,20 +26,26 @@ fetch("https://v3.football.api-sports.io/fixtures?league=39&season=2022", {
 
 const formatData = (data) => {
     let content = '';
-    data.forEach((match) => {
-        content += `
-        <div class="flex">
-            <img src="${match.teams.home.logo}" alt="home-team-logo" class="team-home">
-            <h1 class="score">
-                ${!match.goals.home ? '0' : match.goals.home}-${!match.goals.away ? '0' : match.goals.away}
-            </h1>
-            <img src="${match.teams.away.logo}" alt="" class="team-home">
-        </div>
-    `
-    })
-
-    main.innerHTML += content;
+    data.forEach(
+        (match) => {
+            content += `
+                <div class="match-card">
+                    <img src="${match.teams.home.logo}" alt="home-team-logo" load="lazy" class="team-home">
+                    <h1 class="score">
+                        ${!match.goals.home ? '0' : match.goals.home}-${!match.goals.away ? '0' : match.goals.away}
+                    </h1>
+                    <img src="${match.teams.away.logo}" alt="away-team-logo" load="lazy" class="team-home">
+                </div>
+            `
+        }
+    )
+    return content;
 }
 
+function getTwenty(arr, i) {
+    const fourItemArr = arr.slice(i, i + 4);
+    documentContent.innerHTML += formatData(fourItemArr);
+    i = i + 4;
+}
 
 
